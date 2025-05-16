@@ -179,3 +179,4 @@ cython_debug/
 *.xlsm
 *.csv
 *.parquet
+*.pkl
