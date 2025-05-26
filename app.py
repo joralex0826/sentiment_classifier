@@ -21,7 +21,7 @@ def predict_datapoint():
 
     if request.method == 'POST':
         review = request.form.get('review')
-        if review.strip():  # Solo si no está vacío
+        if review.strip():
             data = CustomData(review=review)
             pred_df = data.get_data_as_dataframe()
 
@@ -29,9 +29,8 @@ def predict_datapoint():
             results = inference_pipeline.predict(features=pred_df)
             prediction = results[0]
 
-            # Guardamos review + resultado
             session['history'].append({'review': review, 'prediction': prediction})
-            session.modified = True  # Para que Flask actualice el contenido
+            session.modified = True
 
     return render_template('home.html', history=session.get('history', []))
 
