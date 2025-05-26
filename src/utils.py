@@ -13,6 +13,17 @@ from scipy.sparse import issparse
 from sklearn.metrics import f1_score, precision_score, recall_score
 from sklearn.model_selection import cross_val_score
 
+import re
+import unicodedata
+
+def clean_text(text):
+    text = text.lower()
+    text = unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode('utf-8')
+    text = re.sub(r'[^a-z0-9\s]', '', text)
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    return text
+
 def save_object(file_path, obj):
     """
     Save the object to a file using pickle.
@@ -24,6 +35,13 @@ def save_object(file_path, obj):
         with open(file_path, 'wb') as file:
             dill.dump(obj, file)
 
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+def load_object(file_path):
+    try:
+        with open(file_path, 'rb') as file_obj:
+            return  dill.load(file_obj)
     except Exception as e:
         raise CustomException(e, sys)
 
