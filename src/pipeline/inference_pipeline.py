@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+from src.logger import logging
 from src.exception import CustomException
 from src.utils import load_object, clean_text
 
@@ -10,6 +11,7 @@ class InferencePipeline:
 
     def predict(self, features):
         try:
+            logging.info("Starting inference pipeline...")
             model_path = "artifacts/model.pkl"
             preprocessor_path = "artifacts/preprocessor.pkl"
             label_encoder_path = "artifacts/label_encoder.pkl"
@@ -22,6 +24,7 @@ class InferencePipeline:
             preds = model.predict(data)
             preds = preds.astype(int)
             preds = label_encoder.inverse_transform(preds)
+            logging.info("Inference completed successfully.")
             return preds
 
         except Exception as e:
