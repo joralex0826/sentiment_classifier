@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+logs/
+notebooks/
+artifacts/*.csv
+artifacts/*.log
+.git/
+.gitignore

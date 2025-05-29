@@ -1,11 +1,23 @@
 FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc \
+    libatlas-base-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip install --upgrade pip && pip install poetry
+
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock ./
-COPY . .
-RUN pip install poetry && poetry install --without dev
+COPY pyproject.toml poetry.lock README.md* /app/
 
-ENV PORT=5000
+RUN poetry config virtualenvs.create false \
+    && poetry install --only main --no-interaction --no-ansi --no-root
+
+COPY . /app
+
 EXPOSE 5000
 
-CMD ["python", "application.py"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "application:app"]
+
