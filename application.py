@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session
 import numpy as np
 import pandas as pd
 
+
 from src.pipeline.inference_pipeline import CustomData, InferencePipeline
 
 application= Flask(__name__)
