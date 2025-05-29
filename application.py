@@ -35,4 +35,4 @@ def predict_datapoint():
     return render_template('home.html', history=session.get('history', []))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=8080)
